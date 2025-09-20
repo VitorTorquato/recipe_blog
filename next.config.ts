@@ -1,7 +1,16 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  outputFileTracingRoot: path.resolve(process.cwd()),
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.cosmicjs.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
