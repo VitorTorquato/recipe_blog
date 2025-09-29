@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export async function getHomeData() {
   try {
     const res = await fetch(
@@ -17,24 +19,65 @@ export async function getHomeData() {
   }
 }
 
-export async function getRecipesData(){
+export async function getRecipesData() {
+  try {
+    // Decode the query parameter for better debugging
+    const query = JSON.stringify({ type: "recipes" });
+    const encodedQuery = encodeURIComponent(query);
 
-  try{
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const readKey = process.env.NEXT_PUBLIC_READ_KEY || process.env.READ_KEY;
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/objects?pretty=true&query=%7B%22type%22%3A%22recipes%22%7D&limit=10&skip=0&read_key=${process.env.READ_KEY}&props=slug%2Ctitle%2Cmetadata%2Ctype&sort=-order`,
-    );
+  
+    const url = `${apiUrl}/objects?pretty=true&query=${encodedQuery}&limit=100&skip=0&read_key=${readKey}&props=slug,metadata&sort=-order`;
 
-    if(!res.ok){
-      throw new Error('Error to fetch data');
+
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data`);
     }
 
     const data = await res.json();
-    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching recipes data:", error);
+    throw new Error(`Error to fetch data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+export async function getItemBySlug(itemslug: string) {
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/objects`;
+
+  const queryParams = new URLSearchParams({
+    query: JSON.stringify({
+      slug: itemslug,
+    }),
+    props: "slug,title,metadata,type",
+    read_key: process.env.READ_KEY as string,
+  });
+
+  const url = `${baseUrl}?${queryParams.toString()}`;
+
+  try {
+    const response = await fetch(url, { next: { revalidate: 120 } });
+
+    if (!response.ok) {
+      throw new Error("Error to fetch data");
+    }
+
+    const data = await response.json();
+
     return data;
 
-  }catch(error){
-    console.error('Erro to ffetch data' , error);
-    throw new Error('Error to fetch data');
+    // // Return the first object from the objects array is an option as well
+    // if (data.objects && data.objects.length > 0) {
+    //   return { object: data.objects[0] };
+    // } else {
+    //   throw new Error('Recipe not found');
+    // }
+  } catch (error) {
+    console.error(error);
+    redirect("/");
   }
 }

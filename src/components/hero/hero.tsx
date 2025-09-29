@@ -29,7 +29,7 @@ export function Hero({ bannerUrl, heading ,sub_heading, button_title}: HeroProps
         </h1>
         <p className="text-xl md:text-2xl mb-8 text-balance">{sub_heading}</p>
         <Button asChild size="lg" className="bg-chart-4 text-base font-bold hover:bg-chart-4/90">
-          <Link href="/receips">{button_title}</Link>
+          <Link href="/recipes">{button_title}</Link>
         </Button>
       </div>
     </section>

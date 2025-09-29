@@ -1,6 +1,6 @@
 import { About } from "../components/about/about";
 import { Hero } from "../components/hero/hero";
-import { Receipes } from "../components/receipes/receipes";
+import { Recipes } from "../components/receipes/receipes";
 import { getHomeData, getRecipesData } from "../lib/utils/actions/get-data";
 import { getLatestRecipes } from "../lib/utils/actions/getRecipes";
 import type { HomeProps, HomeRecipeProps } from "../lib/utils/home.type";
@@ -20,7 +20,7 @@ export default async function Home() {
         button_title={object.metadata.cta_button.button_title}
       />
       <About object={object} />
-      <Receipes recipes={{ objects: latestRecipes }} />
+      <Recipes recipes={{ objects: latestRecipes }} />
     </main>
   );
 }

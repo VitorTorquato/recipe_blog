@@ -3,12 +3,12 @@ import type { HomeRecipeProps } from "../../lib/utils/home.type";
 import { Button } from "../ui/button";
 import { RecipeCard } from "./recipe-card/recipe-card";
 
-interface RecipeProps {
+export interface RecipeProps {
   recipes: HomeRecipeProps;
   showCategory?: boolean;
 }
 
-export function Receipes({ recipes, showCategory = true }: RecipeProps) {
+export function Recipes({ recipes, showCategory = true }: RecipeProps) {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -34,7 +34,7 @@ export function Receipes({ recipes, showCategory = true }: RecipeProps) {
 
         <div className="text-center mt-12">
           <Button asChild size="lg">
-            <Link href="/recipes">View All Recipes</Link>
+            <Link href={`/recipes`}>View All Recipes</Link>
           </Button>
         </div>
       </div>

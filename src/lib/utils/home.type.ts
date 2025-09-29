@@ -1,13 +1,10 @@
 // home.type.ts - Interfaces corrigidas baseadas nos dados reais do Cosmic
 
 export interface RecipesProps {
-  slug: string;
-  title: string;
-  type: string;
+  slug:string;
   metadata: {
     image: {
       url: string;
-      imgix_url: string;
     };
     title: string;
     description: string;
@@ -48,7 +45,6 @@ export interface HomeProps {
           url: string;
         };
       };
-      // Remove recipes daqui se não usar mais
     };
   };
 }

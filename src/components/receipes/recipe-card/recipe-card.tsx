@@ -8,7 +8,7 @@ import type { RecipesProps} from "../../../lib/utils/home.type";
 
 
 
-interface RecipeCardProps {
+export interface RecipeCardProps {
   recipe: RecipesProps;
   showCategory?: boolean;
 }
@@ -93,7 +93,7 @@ export function RecipeCard({ recipe , showCategory = true }: RecipeCardProps) {
           variant="ghost"
           className="p-0 h-auto text-primary hover:text-primary/80 font-medium"
         >
-          <Link href={`/recipe}`}>Continue Reading →</Link>
+          <Link href={`/recipe/${recipe.slug}`}>Continue Reading →</Link>
         </Button>
       </CardContent>
     </Card>

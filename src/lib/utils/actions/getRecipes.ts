@@ -122,3 +122,4 @@ export const groupRecipesByCategory = (
     {} as Record<string, RecipesProps[]>,
   );
 };
+
