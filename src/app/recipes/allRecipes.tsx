@@ -293,7 +293,7 @@ export function AllRecipesPage() {
         {/* Recipes Grid */}
         {paginatedRecipes.length > 0 ? (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mb-16 mx-auto">
               {paginatedRecipes.map((recipe) => (
                 <RecipeCard
                   key={recipe.slug}
