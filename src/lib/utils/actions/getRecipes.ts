@@ -75,7 +75,8 @@ export const searchRecipes = (
     (recipe) =>
       recipe.metadata.title.toLowerCase().includes(term) ||
       recipe.metadata.description.toLowerCase().includes(term) ||
-      recipe.metadata.category.toLowerCase().includes(term),
+      recipe.metadata.category.toLowerCase().includes(term) ||
+      recipe.metadata.difficulty?.toLowerCase().includes(term),
   );
 };
 
@@ -100,6 +101,78 @@ export const getQuickRecipes = (
     const cookTime = parseInt(timeMatch[0]);
     return cookTime <= maxTime;
   });
+};
+
+/**
+ * Busca avançada de receitas com opções de filtro
+ * @param recipes - Array de receitas
+ * @param query - Termo de busca
+ * @param options - Opções de filtro avançado
+ * @returns Array de receitas filtradas
+ */
+export const advancedSearchRecipes = (
+  recipes: RecipesProps[],
+  query: string,
+  options?: {
+    category?: string;
+    difficulty?: string;
+    maxCookTime?: number;
+  },
+): RecipesProps[] => {
+  let results = searchRecipes(recipes, query);
+
+  if (options?.category && options.category !== "all") {
+    results = results.filter(
+      (recipe) => recipe.metadata.category.toLowerCase() === options.category?.toLowerCase(),
+    );
+  }
+
+  if (options?.difficulty && options.difficulty !== "all") {
+    results = results.filter(
+      (recipe) => recipe.metadata.difficulty?.toLowerCase() === options.difficulty?.toLowerCase(),
+    );
+  }
+
+  if (options?.maxCookTime) {
+    results = results.filter((recipe) => {
+      if (!recipe.metadata.cooktime) return true;
+      const timeMatch = recipe.metadata.cooktime.match(/(\d+)/);
+      if (timeMatch) {
+        const cookTimeMinutes = Number.parseInt(timeMatch[1], 10);
+        return cookTimeMinutes <= options.maxCookTime!;
+      }
+      return true;
+    });
+  }
+
+  return results;
+};
+
+/**
+ * Extrai termos populares de busca das receitas
+ * @param recipes - Array de receitas
+ * @returns Array de termos populares
+ */
+export const getPopularSearchTerms = (recipes: RecipesProps[]): string[] => {
+  const terms = new Set<string>();
+
+  recipes.forEach((recipe) => {
+    // Adiciona primeira palavra do título
+    const titleWords = recipe.metadata.title.split(" ");
+    if (titleWords.length > 0) {
+      terms.add(titleWords[0].toLowerCase());
+    }
+
+    // Adiciona categoria
+    terms.add(recipe.metadata.category.toLowerCase());
+
+    // Adiciona dificuldade se existir
+    if (recipe.metadata.difficulty) {
+      terms.add(recipe.metadata.difficulty.toLowerCase());
+    }
+  });
+
+  return Array.from(terms).slice(0, 10);
 };
 
 /**

@@ -28,9 +28,7 @@ export async function getRecipesData() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const readKey = process.env.NEXT_PUBLIC_READ_KEY || process.env.READ_KEY;
 
-  
     const url = `${apiUrl}/objects?pretty=true&query=${encodedQuery}&limit=100&skip=0&read_key=${readKey}&props=slug,metadata&sort=-order`;
-
 
     const res = await fetch(url);
 
@@ -42,7 +40,9 @@ export async function getRecipesData() {
     return data;
   } catch (error) {
     console.error("Error fetching recipes data:", error);
-    throw new Error(`Error to fetch data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Error to fetch data: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
   }
 }
 
@@ -79,5 +79,25 @@ export async function getItemBySlug(itemslug: string) {
   } catch (error) {
     console.error(error);
     redirect("/");
+  }
+}
+
+export async function getAboutData() {
+  
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/objects/68dbbd071df94af144a25e66?pretty=true&read_key=${process.env.READ_KEY}&props=slug%2Ctitle%2Cmetadata&limit=10&skip=0&sort=-order`,
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching home data:", error);
+    throw new Error(`Failed to fetch data`);
   }
 }
