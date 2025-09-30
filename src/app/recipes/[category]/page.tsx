@@ -1,10 +1,9 @@
-
-import { getRecipesByCategory } from "@/lib/utils/actions/getRecipes";
-import { getRecipesData } from "@/lib/utils/actions/get-data";
-import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { RecipeCard } from "@/components/receipes/recipe-card/recipe-card";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { RecipeCard } from "@/components/receipes/recipe-card/recipe-card";
+import { Button } from "@/components/ui/button";
+import { getRecipesData } from "@/lib/utils/actions/get-data";
+import { getRecipesByCategory } from "@/lib/utils/actions/getRecipes";
 import type { RecipesProps } from "@/lib/utils/home.type";
 
 interface CategoryPageProps {
@@ -41,8 +40,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     const recipesData = await getRecipesData();
     recipes = getRecipesByCategory(recipesData.objects, category);
   } catch (err) {
-    console.error('Error loading recipes:', err);
-    error = 'Failed to load recipes';
+    console.error("Error loading recipes:", err);
+    error = "Failed to load recipes";
     recipes = [];
   }
 
@@ -52,7 +51,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-  
       <div className="container mx-auto px-4 py-8">
         {/* Category Header */}
         <div className="text-center mb-12">
@@ -74,9 +72,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               <h3 className="text-xl font-semibold mb-2 text-foreground">
                 Error Loading Recipes
               </h3>
-              <p className="text-muted-foreground mb-6">
-                {error}
-              </p>
+              <p className="text-muted-foreground mb-6">{error}</p>
               <Button onClick={() => window.location.reload()}>
                 Try Again
               </Button>
@@ -95,21 +91,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               />
             ))}
           </div>
-        ) : !error && (
-          <div className="text-center py-12">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-semibold mb-2 text-foreground">
-                No recipes found
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                We don't have any {categoryName.toLowerCase()} recipes yet, but
-                check back soon!
-              </p>
-              <Button asChild>
-                <Link href="/recipes">Browse All Recipes</Link>
-              </Button>
+        ) : (
+          !error && (
+            <div className="text-center py-12">
+              <div className="max-w-md mx-auto">
+                <h3 className="text-xl font-semibold mb-2 text-foreground">
+                  No recipes found
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  We don't have any {categoryName.toLowerCase()} recipes yet,
+                  but check back soon!
+                </p>
+                <Button asChild>
+                  <Link href="/recipes">Browse All Recipes</Link>
+                </Button>
+              </div>
             </div>
-          </div>
+          )
         )}
       </div>
     </div>

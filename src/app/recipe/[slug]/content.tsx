@@ -1,15 +1,15 @@
 import { Calendar, ChefHat, Clock, Users } from "lucide-react";
 import Image from "next/image";
 import type { PostProps } from "@/lib/utils/post.type";
-import { Badge } from "../../../../components/ui/badge";
+import { Badge } from "../../../components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../../components/ui/card";
-import { Separator } from "../../../../components/ui/separator";
-import { getItemBySlug } from "../../../../lib/utils/actions/get-data";
+} from "../../../components/ui/card";
+import { Separator } from "../../../components/ui/separator";
+import { getItemBySlug } from "../../../lib/utils/actions/get-data";
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -111,8 +111,10 @@ export async function Content({ slug }: { slug: string }) {
               <ul className="space-y-3">
                 {ingredients.map((ingredient: string, index: number) => (
                   <li
-                    key={`ingredient-${// biome-ignore lint/suspicious/noArrayIndexKey: <no reason>
-index}`}
+                    key={`ingredient-${
+                      // biome-ignore lint/suspicious/noArrayIndexKey: <no reason>
+                      index
+                    }`}
                     className="flex items-start gap-3"
                   >
                     <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
@@ -131,8 +133,13 @@ index}`}
             <CardContent>
               <ol className="space-y-4">
                 {instructions.map((instruction: string, index: number) => (
-                  <li key={`instruction-${// biome-ignore lint/suspicious/noArrayIndexKey: <no reason>
-index}`} className="flex gap-4">
+                  <li
+                    key={`instruction-${
+                      // biome-ignore lint/suspicious/noArrayIndexKey: <no reason>
+                      index
+                    }`}
+                    className="flex gap-4"
+                  >
                     <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold text-sm">
                       {index + 1}
                     </div>
@@ -251,7 +258,9 @@ index}`} className="flex gap-4">
               <Separator />
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Servings</span>
-                <span className="font-medium">{objects[0].metadata.servings}</span>
+                <span className="font-medium">
+                  {objects[0].metadata.servings}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Difficulty</span>

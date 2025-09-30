@@ -1,4 +1,4 @@
-import { Content } from './_components/content';
+import { Content } from "./content";
 
 interface PageProps {
   params: Promise<{
@@ -6,14 +6,13 @@ interface PageProps {
   }>;
 }
 
-export default async function Page(props : PageProps) {
-
+export default async function Page(props: PageProps) {
   const params = await props.params;
-  const {slug} = params;
-  
+  const { slug } = params;
+
   return (
     <main>
-      <Content slug={slug}/>
+      <Content slug={slug} />
     </main>
-  )
+  );
 }

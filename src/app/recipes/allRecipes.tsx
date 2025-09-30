@@ -56,6 +56,7 @@ export function AllRecipesPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState(
     searchParams.get("difficulty") || "all",
   );
+  // biome-ignore lint/correctness/useParseIntRadix: <just in this case>
   const currentPage = Number.parseInt(searchParams.get("page") || "1");
 
   // Load recipes data
